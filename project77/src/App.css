@@ -1,0 +1,88 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.App {
+  /* Style the main container */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: rgb(54, 74, 107); /* Ash color background */
+}
+
+.input-container {
+  /* Style the input groups */
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Make inputs full width */
+}
+
+.input-container label {
+  /* Style labels */
+  color: white; /* White text */
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+  /* Style text input and textarea */
+  border: 1px solid #ccc; /* Light gray border */
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 16px;
+  width: 100%; /* Make inputs full width */
+  background-color: #f0f0f0; /* Light gray background for inputs */
+  color: black; /* Black text for inputs */
+}
+
+.submit-button {
+  /* Style the submit button */
+  background-color: #09090a; /* Blue */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
