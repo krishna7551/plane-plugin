@@ -39,6 +39,7 @@ import './App.css';
 import Tutorial from './components/Tutorial';
 import { useFrontContext } from './providers/frontContext';
 import {FormField} from '@frontapp/ui-kit';
+import React, { useState, useEffect } from 'react';
 // import Form from 'react-bootstrap/Form';
 
 function App() {
@@ -54,19 +55,19 @@ function App() {
   switch(context.type) {
     case 'noConversation':
       return (
-        <div className="App">
+        <div className="bg-black p-4 rounded-3">
           <p>No conversation selected. Select a conversation to use this plugin.</p>
         </div>
       );
     case 'singleConversation':
       return (
-        <div className="App">
+        <div>
           <Tutorial />
         </div>
       );
     case 'multiConversations':
       return (
-        <div className="App">
+        <div className="bg-black p-4 rounded-3">
           <p>Multiple conversations selected. Select only one conversation to use this plugin.</p>
         </div>
       );

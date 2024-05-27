@@ -43,11 +43,8 @@
 
 .App {
   /* Style the main container */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 20px;
-  background-color: rgb(54, 74, 107); /* Ash color background */
+  background-color: #000000; 
 }
 
 .input-container {
@@ -58,13 +55,6 @@
   width: 100%; /* Make inputs full width */
 }
 
-.input-container label {
-  /* Style labels */
-  color: white; /* White text */
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
 input[type="text"],
 textarea {
   /* Style text input and textarea */
@@ -73,16 +63,11 @@ textarea {
   padding: 8px;
   font-size: 16px;
   width: 100%; /* Make inputs full width */
-  background-color: #f0f0f0; /* Light gray background for inputs */
+  background-color: #ffffff; /* Light gray background for inputs */
   color: black; /* Black text for inputs */
 }
 
 .submit-button {
   /* Style the submit button */
-  background-color: #09090a; /* Blue */
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 20px;
-  font-size: 16px;
+  background-color: #1e4dda;
 }
