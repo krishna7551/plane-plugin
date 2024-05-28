@@ -10,22 +10,19 @@ function Tutorial() {
   const user = (context.teammate && context.teammate.name) ? context.teammate.name : 'world';
   
 
-  const [title, setTitle] = useState(''); //new state for title
-  const [description, setDescription] = useState('');  //New state for description 
-  const [issueCreated, setIssueCreated] = useState(false); // State for issue creation
+  const [title, setTitle] = useState(''); 
+  const [description, setDescription] = useState('');  
+  const [issueCreated, setIssueCreated] = useState(false); 
   const [externalUrls, setExternalUrls] = useState([]);
   const [loading, setLoading] = useState(false); 
-  // const [error, setError] = useState(null);
-  
+ 
+  const frontApiKey = import.meta.env.VITE_FRONT_API_KEY;
 
-  const conversationId = context.conversation.id;
-
-  // Clear localStorage on component mount (optional)
+ 
   useEffect(() => {
     
-    // Check if an issue is already created for the conversation
     const checkIssueStatus = async () => {
-      // setLoading(() => true)
+      
       try {
         const issueStatus = localStorage.getItem('issueCreated');
         const issueExists = issueStatus && JSON.parse(issueStatus)[context.conversation.id];
@@ -35,14 +32,12 @@ function Tutorial() {
       } catch (error) {
         console.error('Error checking issue status:', error);
       }
-      // setLoading(() => false)
     };
 
     checkIssueStatus();
   }, [context.conversation.id]);
 
   useEffect(() => {
-    // Fetch conversation details when component mounts
     const fetchConversationDetails = async () => {
       setLoading(() => true)
       try {
@@ -50,7 +45,7 @@ function Tutorial() {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzY29wZXMiOlsicHJvdmlzaW9uaW5nIiwicHJpdmF0ZToqIiwic2hhcmVkOioiLCJrYiJdLCJpYXQiOjE3MTUyMzgzNjUsImlzcyI6ImZyb250Iiwic3ViIjoiMDVkYmU5MzQxMjRjOTQ0NGEzMzYiLCJqdGkiOiI4YTJmZGFlY2U5NWQyYWNmIn0.wc-ni8f_mF6qzmFxxYnphD1jddibRLCH2fEDBge_cRY', // Replace with your Front API key
+            'Authorization': `Bearer ${frontApiKey}`,
           }
         });
 
@@ -68,7 +63,6 @@ function Tutorial() {
     fetchConversationDetails();
   }, [context.conversation.id]);
 
-  //on clicking submit button these 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -80,7 +74,7 @@ function Tutorial() {
       console.log('Issue created successfully!');
       setIssueCreated(true);
       localStorage.setItem('issueCreated', JSON.stringify({ [context.conversation.id]: true }));
-      setLoading(false); // Set loading state to false after setting issueCreated
+      setLoading(false); 
     return;
     } 
     try{
@@ -93,51 +87,30 @@ function Tutorial() {
         return;
       }
 
-    // Check if an issue already exists for the conversation
-    const workspace_slug = "kc-demo"
-    const project_id = "cb26d5ed-5c05-49b3-a3c6-58952f763a82"
+    const workspace_slug = import.meta.env.VITE_WORKSPACE_SLUG
+    const project_id = import.meta.env.VITE_PROJECT_ID
     const conversationLink = "https://app.frontapp.com/open/{conversation_id}".replace('{conversation_id}', context.conversation.id)
 
-    const issue_create_url = 'https://cors-anywhere.herokuapp.com/https://api.plane.so/api/v1/workspaces/{slug}/projects/{project_id}/issues/'; // Replace with your Autocode function URL
+    const issue_create_url = 'https://cors-anywhere.herokuapp.com/https://api.plane.so/api/v1/workspaces/{slug}/projects/{project_id}/issues/'; 
     const issue_link_create_url = 'https://cors-anywhere.herokuapp.com/https://api.plane.so/api/v1/workspaces/{slug}/projects/{project_id}/issues/{issue_id}/links/'
     const tag_creation_url ='https://cors-anywhere.herokuapp.com/https://api2.frontapp.com/links'
     const conversation_link_creation_url = 'https://cors-anywhere.herokuapp.com/https://api2.frontapp.com/conversations/{conversation_id}/links'
     const fetch_project_details_url = 'https://cors-anywhere.herokuapp.com/https://api.plane.so/api/v1/workspaces/{slug}/projects/{project_id}/'
 
-    const apiKey = 'plane_api_02201c2623fd4e99bfc15bfe95147442'; //api key generated from the plane
-    console.log(context, "context")
-    
-    // const conversationDetailsResponse = await fetch(`https://cors-anywhere.herokuapp.com/https://api2.frontapp.com/conversations/${context.conversation.id}`, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzY29wZXMiOlsicHJvdmlzaW9uaW5nIiwicHJpdmF0ZToqIiwic2hhcmVkOioiLCJrYiJdLCJpYXQiOjE3MTM5NTU3MDUsImlzcyI6ImZyb250Iiwic3ViIjoiYWMwMzZhZGUyZmZiY2RiNTVjMzQiLCJqdGkiOiJmNTliMjhiMDUxYjAzNWFiIn0.bPjTFWcntVXtWy1M5ELwl9LkuXWyDzm6gai8sMCHs0o', // Replace with your Front API key
-    //   }
-    // })
+    const apiKey = import.meta.env.VITE_PLANE_API_KEY; 
+    console.log(context, "context") 
 
-    // const conversationDetails = await conversationDetailsResponse.json();
-    // console.log('convo details:', conversationDetails);
-    // conversationDetails.links.forEach((link) => {
-    //   console.log("External URL:", link.external_url);
-    //   // You can further process each external URL here (e.g., store it in a variable)
-    // });
-
-    
-    
-
-    const response = await fetch(issue_create_url.replace('{slug}', 'kc-demo').replace('{project_id}', 'cb26d5ed-5c05-49b3-a3c6-58952f763a82'), {
+    const response = await fetch(issue_create_url.replace('{slug}', workspace_slug).replace('{project_id}', project_id), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': apiKey,
       },
       body: JSON.stringify({
-        // issue: {
           name: title,
           description_html: description,
 
       }),
-    //  mode: 'no-cors',
     });
 
     
@@ -149,14 +122,12 @@ function Tutorial() {
     console.log('Success:', data);
 
 
-//PROJECT ID FETCH
-    const project_link_response = await fetch(fetch_project_details_url.replace('{slug}', 'kc-demo').replace('{project_id}', 'cb26d5ed-5c05-49b3-a3c6-58952f763a82'), {
+    const project_link_response = await fetch(fetch_project_details_url.replace('{slug}', workspace_slug).replace('{project_id}', project_id), {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': apiKey,
       },
-    //  mode: 'no-cors',
     });
 
     const projectdata = await project_link_response.json();
@@ -165,7 +136,7 @@ function Tutorial() {
 
     
 
-    const link_response = await fetch(issue_link_create_url.replace('{slug}', 'kc-demo').replace('{project_id}', 'cb26d5ed-5c05-49b3-a3c6-58952f763a82').replace('{issue_id}', data.id), {
+    const link_response = await fetch(issue_link_create_url.replace('{slug}', workspace_slug).replace('{project_id}', project_id).replace('{issue_id}', data.id), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -175,7 +146,6 @@ function Tutorial() {
           title: "conversation link",
           url: conversationLink,
       }),
-    //  mode: 'no-cors',
     });
 
 
@@ -183,13 +153,12 @@ function Tutorial() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzY29wZXMiOlsicHJvdmlzaW9uaW5nIiwicHJpdmF0ZToqIiwic2hhcmVkOioiLCJrYiJdLCJpYXQiOjE3MTU4NTE1NjIsImlzcyI6ImZyb250Iiwic3ViIjoiY2E2MjkxZjZiMDVlMmJlZjEzOWMiLCJqdGkiOiJjMjBhY2U0ZDNiNzAwZTg5In0.prI-tKEEmkc1upSmQ85oQKVi5WazyM62I8bNPp7RGis',
+        'Authorization': `Bearer ${frontApiKey}`,
       },
       body: JSON.stringify({
         name: `${projectdata.identifier}-${data.sequence_id}`, 
         external_url: `https://app.plane.so//${workspace_slug}/projects/${project_id}/issues/${data.id}`
       }),
-    //  mode: 'no-cors',
     });
 
     const linkdata = await tag_response.json();
@@ -201,13 +170,11 @@ function Tutorial() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzY29wZXMiOlsicHJvdmlzaW9uaW5nIiwicHJpdmF0ZToqIiwic2hhcmVkOioiLCJrYiJdLCJpYXQiOjE3MTU4NTE1NjIsImlzcyI6ImZyb250Iiwic3ViIjoiY2E2MjkxZjZiMDVlMmJlZjEzOWMiLCJqdGkiOiJjMjBhY2U0ZDNiNzAwZTg5In0.prI-tKEEmkc1upSmQ85oQKVi5WazyM62I8bNPp7RGis',
+        'Authorization': `Bearer ${frontApiKey}`,
       },
       body: JSON.stringify({
-        // link_external_urls: [`https://app.plane.so//${workspace_slug}/projects/${project_id}/issues/${data.id}`],
         link_ids: [`${linkdata.id}`],
       }),
-    //  mode: 'no-cors',
     
     });
   console.log(tag_link_response, 'tag_link_response')
@@ -222,7 +189,7 @@ function Tutorial() {
   console.error('Error creating issue:', error);
 }
 finally {
-  setLoading(false); // Set loading state to false when API requests are completed
+  setLoading(false); 
 }if (!loading) {
   console.log('Loading state set to false:', loading);
 }
